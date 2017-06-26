@@ -6,6 +6,11 @@
 </head>
 
 <body>
+
+ <div id="guestbook-content">
+	
+ </div>
+
  <form id="guestbook-form">
   <label for="author">Author: </label><input type="text" name="author"><br>
   <label for="message">Message: </label> <input type="text" name="message"><br>
@@ -18,17 +23,28 @@
 			  crossorigin="anonymous"></script>
 			  
  <script>
+	var parseJson = function(json){
+		$(JSON.parse(json)).each(function(index, entry){
+
+			$("#guestbook-content").html(entry.time);
+			$("#guestbook-content").append($("p").addClass("author").html(entry.author));
+			$("#guestbook-content").append($("p").addClass("message").html(entry.message));
+
+		});
+	}
+ 
+ 
 	 $( document ).ready(function() {
 		console.log( "ready!" );
 		$("#guestbook-form" ).submit(function(event){
 			event.preventDefault();
 			$.ajax({
-				url: "http://guestbook-backend",
+				url: "/guestbook/",
 				data: $("#guestbook-form" ).serialize(),
 				type: "POST"
 				}).done(function(json) {
-				 $( "<h1>" ).text( json.author ).appendTo( "body" );
-				 $( "<div class=\"content\">").html( json.html ).appendTo( "body" );
+				 console.log(json);
+				 $("#guestbook-content").html(parseJson(json));
 				}).fail(function( xhr, status, errorThrown ) {
 				 console.log( "Error: " + errorThrown );
 				 console.log( "Status: " + status );
