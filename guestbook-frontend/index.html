@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Guestbook</title>
+</head>
+
+<body>
+ <form id="guestbook-form">
+  <label for="author">Author: </label><input type="text" name="author"><br>
+  <label for="message">Message: </label> <input type="text" name="message"><br>
+  <input type="submit" value="Submit">
+ </form> 
+ 
+ 
+ <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+			  crossorigin="anonymous"></script>
+			  
+ <script>
+	 $( document ).ready(function() {
+		console.log( "ready!" );
+		$("#guestbook-form" ).submit(function(event){
+			event.preventDefault();
+			$.ajax({
+				url: "http://guestbook-backend",
+				data: $("#guestbook-form" ).serialize(),
+				type: "POST"
+				}).done(function(json) {
+				 $( "<h1>" ).text( json.author ).appendTo( "body" );
+				 $( "<div class=\"content\">").html( json.html ).appendTo( "body" );
+				}).fail(function( xhr, status, errorThrown ) {
+				 console.log( "Error: " + errorThrown );
+				 console.log( "Status: " + status );
+				 console.dir( xhr );
+			});
+		
+		});
+
+	 });
+ </script>
+ 
+</body>
+
+</html>
