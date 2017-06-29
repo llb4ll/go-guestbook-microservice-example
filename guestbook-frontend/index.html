@@ -7,35 +7,24 @@
 
 <body>
 
- <div id="guestbook-content">
-	
- </div>
+ <h1>Guestbook</h1>
+ 
 
  <form id="guestbook-form">
   <label for="author">Author: </label><input type="text" name="author"><br>
   <label for="message">Message: </label> <input type="text" name="message"><br>
   <input type="submit" value="Submit">
- </form> 
+ </form>
+
+ <div id="guestbook-content"></div>
  
- 
- <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+ <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"
 			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 			  crossorigin="anonymous"></script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 			  
- <script>
-	var parseJson = function(json){
-		$(JSON.parse(json)).each(function(index, entry){
-
-			$("#guestbook-content").html(entry.time);
-			$("#guestbook-content").append($("p").addClass("author").html(entry.author));
-			$("#guestbook-content").append($("p").addClass("message").html(entry.message));
-
-		});
-	}
- 
- 
+ <script> 
 	 $( document ).ready(function() {
-		console.log( "ready!" );
 		$("#guestbook-form" ).submit(function(event){
 			event.preventDefault();
 			$.ajax({
@@ -43,16 +32,18 @@
 				data: $("#guestbook-form" ).serialize(),
 				type: "POST"
 				}).done(function(json) {
-				 console.log(json);
-				 $("#guestbook-content").html(parseJson(json));
+				 $(JSON.parse(json)).each(function(index, entry){
+				 	$("#guestbook-content").prepend('<p>' + 
+				 		' <span class="time">' + moment(entry.time/1000000).format('YYYY-MM-DD HH:mm:ss') + '</span>' +
+				 		' <span class="author">' + entry.author + '</span>' + 
+				 		' <span class="message">' + entry.message + '</span>'+
+				 		'</p>')});
 				}).fail(function( xhr, status, errorThrown ) {
 				 console.log( "Error: " + errorThrown );
 				 console.log( "Status: " + status );
 				 console.dir( xhr );
 			});
-		
 		});
-
 	 });
  </script>
  
