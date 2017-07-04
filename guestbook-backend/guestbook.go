@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+	"html"
 )
 
 type Entry struct {
@@ -19,7 +20,7 @@ func guestBookHandler(response http.ResponseWriter, request *http.Request) {
 
 	request.ParseForm()
 	if author := request.FormValue("author"); author != "" {
-		guestBook = append(guestBook, Entry{time.Now().UnixNano(), request.FormValue("author"), request.FormValue("message")})
+		guestBook = append(guestBook, Entry{time.Now().UnixNano(), html.EscapeString(request.FormValue("author")), html.EscapeString(request.FormValue("message"))})
 	}
 
 	if guestBook != nil {
