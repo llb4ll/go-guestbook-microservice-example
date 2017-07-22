@@ -1,0 +1,9 @@
+sudo: required
+services:
+  - docker
+script:
+  - pushd guestbook-backend
+  - docker build .
+  - popd
+  - pushd guestbook-frontend
+  - docker build .
