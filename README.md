@@ -2,6 +2,8 @@
 A very minimal microservice example, featuring a go guestbook backend, a website and Docker and Kubernetes files.
 
 ## guestbook-backend
+https://travis-ci.org/llb4ll/go-guestbook-microservice-example.svg?branch=master
+
 ### Build
 `docker build -t guestbook-backend .`
 
