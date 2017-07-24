@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sync"
 	"time"
 	"html"
 )
@@ -14,9 +15,14 @@ type Entry struct {
 	Message       string `json:"message"`
 }
 
-var guestBook []Entry
+var (
+	guestBook []Entry
+	guestBookMutex sync.Mutex
+)
 
 func guestBookHandler(response http.ResponseWriter, request *http.Request) {
+	guestBookMutex.Lock()
+	defer guestBookMutex.Unlock()
 
 	request.ParseForm()
 	if author := request.FormValue("author"); author != "" {
