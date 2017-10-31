@@ -1,6 +1,8 @@
 # go-guestbook-microservice-example
 A very minimal microservice example, featuring a go guestbook backend, a website and Docker and Kubernetes files.
 
+[![Build Status](https://travis-ci.org/egymgmbh/microservice-template-java.svg?branch=master)](https://travis-ci.org/egymgmbh/microservice-template-java)
+
 ## guestbook-backend
 https://travis-ci.org/llb4ll/go-guestbook-microservice-example.svg?branch=master
 
